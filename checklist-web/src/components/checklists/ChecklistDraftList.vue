@@ -45,7 +45,7 @@ async function salvarStatus(
 
         await checklistStore.carregarRascunhos();
     } catch {
-        // O erro já é tratado pelo store.
+        
     }
 }
 </script>
