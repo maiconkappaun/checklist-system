@@ -49,6 +49,7 @@ checklist-system/
 │   ├── src/
 │   │   ├── config/
 │   │   ├── controllers/
+|   |   ├── generated/
 │   │   ├── routes/
 │   │   ├── services/
 │   │   └── server.ts
@@ -64,7 +65,9 @@ checklist-system/
 │   │   ├── pages/
 │   │   ├── router/
 │   │   ├── services/
-│   │   └── stores/
+│   │   ├── stores/
+│   │   ├── types/
+│   │   └── views/
 │   │
 │   ├── .env.example
 │   ├── package.json
@@ -288,7 +291,7 @@ A comunicação entre frontend e backend é realizada através de uma API REST.
 ### Criar item
 
 ```http
-POST /api/items
+POST /api/itens
 ```
 
 Exemplo:
@@ -302,7 +305,7 @@ Exemplo:
 ### Listar itens
 
 ```http
-GET /api/items
+GET /api/itens
 ```
 
 ---
@@ -442,7 +445,9 @@ Contém configurações da aplicação, incluindo a conexão com o banco de dado
 
 # Frontend
 
-O frontend utiliza uma organização baseada em componentes, páginas, stores e serviços:
+O frontend foi desenvolvido utilizando **Vue 3** e **TypeScript**, seguindo uma organização baseada em componentes, páginas, views, gerenciamento de estado e serviços.
+
+A estrutura principal é:
 
 ```text
 src/
@@ -451,57 +456,60 @@ src/
 ├── pages/
 ├── router/
 ├── services/
-└── stores/
+├── stores/
+├── types/
+└── views/
 ```
 
 ### Components
 
-Componentes reutilizáveis da interface.
+Contém componentes reutilizáveis da interface, como formulários, modais, listas e outros elementos visuais utilizados em diferentes partes da aplicação.
+
+### Layouts
+
+Contém estruturas de layout utilizadas para organizar elementos comuns das páginas, como cabeçalho, navegação e estrutura geral da aplicação.
 
 ### Pages
 
-Representam as páginas e telas da aplicação.
+Contém as páginas utilizadas pela aplicação, representando os principais módulos e funcionalidades disponíveis para o usuário.
 
-### Stores
+### Views
 
-Gerenciamento do estado da aplicação utilizando Pinia.
-
-### Services
-
-Responsáveis pela comunicação com a API.
+Contém as views associadas às rotas da aplicação, responsáveis por compor as telas utilizando componentes e realizar a integração com os stores e serviços necessários.
 
 ### Router
 
-Gerenciamento da navegação da aplicação utilizando Vue Router.
+Responsável pelo gerenciamento da navegação da aplicação utilizando **Vue Router**, definindo as rotas e suas respectivas views.
+
+### Services
+
+Responsável pela comunicação entre o frontend e a API REST do backend, centralizando as requisições HTTP utilizadas pela aplicação.
+
+### Stores
+
+Responsável pelo gerenciamento do estado da aplicação utilizando **Pinia**.
+
+Os stores concentram dados e operações relacionados aos principais recursos do sistema, como itens e checklists.
+
+### Types
+
+Contém as definições de tipos e interfaces utilizadas pelo TypeScript, garantindo maior segurança e padronização dos dados utilizados no frontend, especialmente nos modelos relacionados aos itens, checklists e respostas da API.
 
 ---
 
 # Diferencial
 
-O desafio propõe como diferencial a possibilidade de executar um checklist e classificar cada item como:
+Como funcionalidade adicional, o sistema permite o **gerenciamento do status dos checklists**, possibilitando alterar um checklist entre os estados:
 
-* Conforme
-* Não conforme
+* **Rascunho**
+* **Pronto**
 
-Essa funcionalidade **não foi implementada na versão atual do projeto**.
+Os checklists em estado **Rascunho** são apresentados separadamente dos checklists **Prontos**, permitindo que o usuário organize os checklists que ainda estão em elaboração e disponibilize somente aqueles que foram finalizados.
 
----
-
-# Segurança
-
-Informações sensíveis não são armazenadas no repositório.
-
-O projeto utiliza arquivos `.env` para configurações locais e disponibiliza arquivos `.env.example` contendo apenas as variáveis necessárias para execução.
-
-O `.gitignore` impede o versionamento de arquivos como:
-
-```text
-.env
-node_modules/
-dist/
-```
+A alteração do status é realizada através de uma interface em formato de modal, proporcionando uma experiência simples e direta para o usuário.
 
 ---
+
 
 # Execução rápida
 
