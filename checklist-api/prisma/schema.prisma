@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ChecklistStatus {
+  RASCUNHO
+  PRONTO
+}
+
+model Item {
+  id          String   @id @default(uuid())
+  descricao   String
+
+  checklistItems ChecklistItem[]
+
+  @@map("itens")
+}
+
+model Checklist {
+  id          String          @id @default(uuid())
+  nome        String
+  descricao   String?
+  status      ChecklistStatus @default(RASCUNHO)
+
+  checklistItems ChecklistItem[]
+
+  @@map("checklists")
+}
+
+model ChecklistItem {
+  checklistId String @map("checklist_id")
+  itemId      String @map("item_id")
+
+  checklist Checklist @relation(fields: [checklistId], references: [id], onDelete: Cascade)
+  item      Item      @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@id([checklistId, itemId])
+  @@map("checklist_itens")
+}
